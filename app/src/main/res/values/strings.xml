@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CSS 545 Application</string>
+    <string name="question1">Why did the Java developer teach his young kids about single quotes?</string>
+    <string name="answer1">Because they build character.</string>
+    <string name="question_page">Joke Page</string>
+    <string name="answer_page">Answer Page</string>
+    <string name="button1">\?????</string>
+    <string name="button2">Go back to the beginning</string>
 </resources>
