@@ -1,5 +1,6 @@
 package com.example.css545application
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.css545application.ui.JokeText
+import com.example.css545application.ui.UserSettings
 import com.example.css545application.ui.theme.CSS545ApplicationTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +26,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    JokeApp()
+                    //JokeApp()
+                    UserSettings()
                 }
             }
         }
@@ -36,7 +40,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun JokePreview() {
     CSS545ApplicationTheme {
-        JokeApp()
+        UserSettings()
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun SettingsPreview() {
+    CSS545ApplicationTheme {
+        UserSettings()
+    }
+}
