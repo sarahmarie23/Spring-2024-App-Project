@@ -13,26 +13,36 @@ import kotlinx.coroutines.flow.map
 
 class PreferencesRepository private constructor(
     private val dataStore: DataStore<Preferences>
-
 ) {
-    val storedPhotoQuery: Flow<String?> = dataStore.data.map {
-        it[SEARCH_QUERY_KEY] ?: ""
+    val storedImageURI: Flow<String?> = dataStore.data.map {
+        it[IMAGE_URI_KEY]
     }.distinctUntilChanged()
 
-    suspend fun setStoredQuery(query: String) {
-        dataStore.edit {
-            it[SEARCH_QUERY_KEY] = query
+    val storedUserName: Flow<String?> = dataStore.data.map {
+        it[USER_NAME_KEY]
+    }.distinctUntilChanged()
+
+    suspend fun setStoredImageURI(uri: String) {
+        dataStore.edit {preferences ->
+            preferences[IMAGE_URI_KEY] = uri
+        }
+    }
+
+    suspend fun setStoredUserName(userName: String) {
+        dataStore.edit {preferences ->
+            preferences[IMAGE_URI_KEY] = userName
         }
     }
 
     companion object {
-        private val SEARCH_QUERY_KEY = stringPreferencesKey("search_query")
+        private val IMAGE_URI_KEY = stringPreferencesKey("image_uri")
+        private val USER_NAME_KEY = stringPreferencesKey("user_name")
         private var INSTANCE: PreferencesRepository? = null
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {
                 val dataStore = PreferenceDataStoreFactory.create {
-                    context.preferencesDataStoreFile("settings")
+                    context.preferencesDataStoreFile("user_preferences")
                 }
 
                 INSTANCE = PreferencesRepository(dataStore)

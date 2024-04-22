@@ -1,5 +1,6 @@
 package com.example.css545application
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.css545application.ui.JokeText
 import com.example.css545application.ui.UserSettings
 import com.example.css545application.ui.theme.CSS545ApplicationTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
