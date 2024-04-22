@@ -43,14 +43,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.css545application.ui.theme.CSS545ApplicationTheme
 
@@ -67,7 +72,7 @@ fun UserSettings() {
     )
 
     var isImageSaved by remember { mutableStateOf(false) }
-
+    val gradientColors = listOf(Color.Cyan, Color.Magenta, Color.Green)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -121,7 +126,7 @@ fun UserSettings() {
             Column(
                 verticalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
-                    .size(200.dp, 200.dp)
+                    .size(200.dp, 225.dp)
                     .border(
                         border = BorderStroke(width = 2.dp, color = Color.Black)
                     )
@@ -134,12 +139,17 @@ fun UserSettings() {
                     loadSavedImage(imageURI = imageURI, context = context)
                     Text(
                         text = userName.text,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        style = TextStyle(
+                            fontSize = 24.sp,
+                            brush = Brush.linearGradient(
+                                colors = gradientColors
+                            )
+                        )
                     )
                 }
-
             }
-
         }
     }
 }
