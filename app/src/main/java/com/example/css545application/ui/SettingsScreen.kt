@@ -1,7 +1,6 @@
 package com.example.css545application.ui
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -10,29 +9,20 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -45,8 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Cyan
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -56,7 +45,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.example.css545application.ui.theme.CSS545ApplicationTheme
 
 
@@ -107,7 +95,6 @@ fun UserSettings() {
                 Button(
                     onClick = {
                         imageURI?.let { uri ->
-                            val bitmap = imageGet(context, uri)
                             imageSave(context, uri)
                             isImageSaved = true
                             Toast.makeText(context, "User info updated", Toast.LENGTH_SHORT).show()
@@ -120,34 +107,36 @@ fun UserSettings() {
                 }
             }
         }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
+        if (isImageSaved) {
             Column(
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .size(200.dp, 225.dp)
-                    .border(
-                        border = BorderStroke(width = 2.dp, color = Color.Black)
-                    )
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(16.dp),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier
+                        .size(200.dp, 225.dp)
+                        .border(
+                            border = BorderStroke(width = 2.dp, color = Color.Black)
+                        )
                 ) {
-                    loadSavedImage(imageURI = imageURI, context = context)
-                    Text(
-                        text = userName.text,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            brush = Brush.linearGradient(
-                                colors = gradientColors
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(16.dp),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        LoadSavedImage(imageURI = imageURI, context = context)
+                        Text(
+                            text = userName.text,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            style = TextStyle(
+                                fontSize = 24.sp,
+                                brush = Brush.linearGradient(
+                                    colors = gradientColors
+                                )
                             )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -155,12 +144,13 @@ fun UserSettings() {
 }
 
 @Composable
-fun loadSavedImage(imageURI: Uri?, context: Context) {
-    imageDisplay(imageURI = imageURI, context = context)
+fun LoadSavedImage(imageURI: Uri?, context: Context) {
+    val bitmap = imageURI?.let { imageGet(context, it) }
+    ImageDisplay(image = bitmap, context = context)
 }
 
 @Composable
-fun imageDisplay(imageURI: Uri?, context: Context) {
+fun ImageDisplay(image: Bitmap?, context: Context) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -172,16 +162,15 @@ fun imageDisplay(imageURI: Uri?, context: Context) {
                 .clip(shape = CircleShape)
                 .background(Color.Gray)
         ) {
-            if (imageURI != null) {
-                AsyncImage(
-                    model = imageURI,
+            if (image != null) {
+                Image(
+                    bitmap = image.asImageBitmap(),
                     contentDescription = null,
                     modifier = Modifier
                         .clip(CircleShape)
                         .size(140.dp),
                     contentScale = ContentScale.Crop
                 )
-
             } else {
                 Text(
                     text = "No image selected",
