@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -68,56 +70,78 @@ fun UserSettings() {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = "Pick display photo from Gallery")
-        //imageDisplay(imageURI = imageURI, context = context)
-        TextField(
-            value = userName,
-            onValueChange = {userName = it },
-            label = { Text("Enter your name") }
-        )
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = {
-                photoPickerLauncher.launch(
-                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                )
-            }, modifier = Modifier.padding(horizontal = 8.dp).width(140.dp)
+            Text(text = "Pick display photo and username", modifier = Modifier.padding(8.dp))
+            TextField(
+                value = userName,
+                onValueChange = { userName = it },
+                label = { Text("Enter your name") },
+                modifier = Modifier.padding(8.dp)
+            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Go to Gallery")
-            }
-
-            Button(onClick = {
-                imageURI?.let {uri ->
-                    val bitmap = imageGet(context, uri)
-                    imageSave(context, uri)
-                    isImageSaved = true
-                    Toast.makeText(context, "User info updated", Toast.LENGTH_SHORT).show()
+                Button(
+                    onClick = {
+                        photoPickerLauncher.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
+                    }, modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .width(140.dp)
+                ) {
+                    Text(text = "Go to Gallery")
                 }
-            }, modifier = Modifier.padding(horizontal = 8.dp).width(140.dp)
-            ) {
-                Text(text = "Save")
+
+                Button(
+                    onClick = {
+                        imageURI?.let { uri ->
+                            val bitmap = imageGet(context, uri)
+                            imageSave(context, uri)
+                            isImageSaved = true
+                            Toast.makeText(context, "User info updated", Toast.LENGTH_SHORT).show()
+                        }
+                    }, modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .width(140.dp)
+                ) {
+                    Text(text = "Save")
+                }
             }
         }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Column(
+                verticalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .size(200.dp, 200.dp)
+                    .border(
+                        border = BorderStroke(width = 2.dp, color = Color.Black)
+                    )
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    loadSavedImage(imageURI = imageURI, context = context)
+                    Text(
+                        text = userName.text,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
+            }
 
-
-
-        //if (isImageSaved) {
-            loadSavedImage(imageURI = imageURI, context = context)
-            Text(
-                text = userName.text,
-                textAlign = TextAlign.Center
-            )
-        //}
-
-
+        }
     }
-
-
 }
 
 @Composable
