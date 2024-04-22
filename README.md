@@ -20,7 +20,7 @@
 
 * **Cloud storage** - the major advantage of could storage is that you can access it anywhere. I wouldn't use it for this project because it's not needed, but for a project I want to do a mobile app and a web app that work together, I'd need to use cloud storage. The data is also secure. The downside is that it requires an internet connection, so if you happen to lose connection it won't work. Most importantly, it costs money and the bigger your app scales the more you'll need to pay.
 
-* **SD card** - 
+* **SD card** - having media stored on an SD card can be a convenient way to gain access to storing large files on the device. The downside is that not ever device may have a SD card or one that will have enough memory. They can be slow and lacking in security. But you can use the data offline and transfer it between devices. It's not something I'd use for my near-future projects.
 
 ## HW0 - Getting Started
 
