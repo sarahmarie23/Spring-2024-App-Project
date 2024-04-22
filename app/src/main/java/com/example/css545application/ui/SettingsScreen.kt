@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -94,6 +95,7 @@ fun UserSettings() {
                     val bitmap = imageGet(context, uri)
                     imageSave(context, uri)
                     isImageSaved = true
+                    Toast.makeText(context, "User info updated", Toast.LENGTH_SHORT).show()
                 }
             }, modifier = Modifier.padding(horizontal = 8.dp).width(140.dp)
             ) {
