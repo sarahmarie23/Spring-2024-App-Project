@@ -22,6 +22,14 @@ class PreferencesRepository private constructor(
         it[USER_NAME_KEY]
     }.distinctUntilChanged()
 
+    val storedSoupCount: Flow<Int?> = dataStore.data.map {
+        it[SOUP_COUNT_KEY] ?.toInt()
+    }.distinctUntilChanged()
+
+    val storedMaxSoupCount: Flow<Int?> = dataStore.data.map {
+        it[MAX_SOUP_COUNT_KEY] ?.toInt()
+    }.distinctUntilChanged()
+
     suspend fun setStoredImageURI(uri: String) {
         dataStore.edit {preferences ->
             preferences[IMAGE_URI_KEY] = uri
@@ -34,9 +42,23 @@ class PreferencesRepository private constructor(
         }
     }
 
+    suspend fun setStoredSoupCount(count: Int) {
+        dataStore.edit { preferences ->
+            preferences[SOUP_COUNT_KEY] = count.toString()
+        }
+    }
+
+    suspend fun setStoredMaxSoupCount(count: Int) {
+        dataStore.edit { preferences ->
+            preferences[MAX_SOUP_COUNT_KEY] = count.toString()
+        }
+    }
+
     companion object {
         private val IMAGE_URI_KEY = stringPreferencesKey("image_uri")
         private val USER_NAME_KEY = stringPreferencesKey("user_name")
+        private val SOUP_COUNT_KEY = stringPreferencesKey("soup_count")
+        private val MAX_SOUP_COUNT_KEY = stringPreferencesKey("max_soup_count")
         private var INSTANCE: PreferencesRepository? = null
 
         fun initialize(context: Context) {

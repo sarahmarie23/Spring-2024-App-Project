@@ -8,13 +8,13 @@ import java.util.Date
 import java.util.Locale
 
 class SoupViewModel (private val savedStateHandle: SavedStateHandle) : ViewModel() {
-    private val _count = mutableIntStateOf(savedStateHandle["count"] ?: 0)
+    private val _count = mutableIntStateOf(savedStateHandle["soup_count"] ?: 0)
     val count: State<Int> = _count
 
-    private val _maxCount = mutableIntStateOf(savedStateHandle["maxCount"] ?: 0)
+    private val _maxCount = mutableIntStateOf(savedStateHandle["max_soup_count"] ?: 0)
     val maxCount: State<Int> = _maxCount
 
-    private val _recentDate = mutableStateOf<String?>(savedStateHandle.get<String?>("recentDate"))
+    private val _recentDate = mutableStateOf<String?>(savedStateHandle.get<String?>("recent_date"))
     val recentDate: State<String?> = _recentDate
 
     init {
@@ -48,8 +48,8 @@ class SoupViewModel (private val savedStateHandle: SavedStateHandle) : ViewModel
     }
 
     private fun saveState() {
-        savedStateHandle["count"] = _count.value
-        savedStateHandle["maxCount"] = _maxCount.value
-        savedStateHandle["recentDate"] = _recentDate.value
+        savedStateHandle["soup_count"] = _count.value
+        savedStateHandle["max_soup_count"] = _maxCount.value
+        savedStateHandle["recent_date"] = _recentDate.value
     }
 }
