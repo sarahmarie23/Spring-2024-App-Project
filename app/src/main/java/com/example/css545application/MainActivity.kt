@@ -27,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //JokeApp()
-                    UserSettings()
+                    //UserSettings()
+                    SoupScreen()
                 }
             }
         }
