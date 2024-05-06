@@ -1,4 +1,4 @@
-package com.example.css545application
+package com.example.css545application.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -36,18 +36,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.draw.drawBehind
+import com.example.css545application.R
 import com.example.css545application.ui.theme.DarkGreen
 import com.example.css545application.ui.theme.LightGreen
 import com.example.css545application.ui.theme.LightGrey
-
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
-fun SoupScreen() {
-    val viewModel: SoupViewModel = viewModel()
-    val countState = viewModel.count
-    val maxCountState = viewModel.maxCount
-    val recentDateState = viewModel.recentDate
+fun SoupScreen(viewModel: SoupViewModel = viewModel(factory = SoupViewModel.Factory)) {
+    val uiState by viewModel.uiState.collectAsState()
+    //val viewModel: SoupViewModel = viewModel(factory = SoupViewModel.Factory)
+    val countState = uiState.countState
+    val maxCountState = uiState.maxCountState
+    val recentDateState = uiState.recentDateState
+    val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
     val imagePainter: Painter = painterResource(R.drawable.soup_image)
     val openDialog = remember { mutableStateOf(false) }
 
@@ -98,18 +105,18 @@ fun SoupScreen() {
 
                         }
                         Text(
-                            text = "${countState.value}",
+                            text = countState.toString(),
                             fontSize = 40.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.align(Alignment.Center).drawBehind { drawCircle(color = LightGreen, radius = this.size.maxDimension) }
                         )
                     }
                     Text(
-                        text = if (countState.value == 1) "day" else "days",
+                        text = if (countState == 1) "day" else "days",
                         modifier = Modifier.padding(16.dp)
                     )
                     Text(
-                        text = "Most recent: ${recentDateState.value}",
+                        text = "Most recent: ${dateFormat.format(recentDateState ?: Date())}",
                         fontSize = 16.sp,
                         textAlign = TextAlign.Center,
 
@@ -118,7 +125,7 @@ fun SoupScreen() {
                 }
                 Box(modifier = Modifier.fillMaxSize().background(color = DarkGreen).weight(1f)) {
                     Text(
-                        text = " Max streak: ${maxCountState.value} ${if (maxCountState.value == 1) "day" else "days"}",
+                        text = " Max streak: ${maxCountState.toString()} ${if (maxCountState == 1) "day" else "days"}",
                         fontSize = 30.sp,
                         color = Color.Black,
                         modifier = Modifier.align(Alignment.Center)
@@ -283,6 +290,6 @@ fun SoupScreen() {
 @Composable
 fun SoupScreenPreview() {
     CSS545ApplicationTheme {
-        SoupScreen()
+        //SoupScreen()
     }
 }
