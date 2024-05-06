@@ -14,6 +14,41 @@
 
 ### States I must Consider
 
+* **Active** - This is when the app is open and working, so obviously need to consider it. It needs to not crash if another app pops up on top, or something is running in the background.
+
+* **Paused** - This is when the user has moved over to another app so they aren't looking at it anymore. It still needs to be listening for phone calls at this point so the user can decide if they want to stop the music. That would mean the bluetooth connection still needs to be held.
+
+* **Stopped** - At this point the bluetooth connection will be stopped. Incoming calls won't trigger a dialog asking to pause the music. The information about the paired device will still remain. Memory has been freed up.
+
+* **Destroyed** - Like what happened in the stopped state, but it happens because the user swiped up to close it, rather than force stopping it.
+
+### App Assignment
+
+The theme of this app comes from something I did as a joke almost a year ago. The inspiration comes from a conversation that went a little like this:
+
+Friend: I made soup.
+
+Me: Didn't you have soup yesterday and the day before? You're on a soup streak.
+
+Friend: But soup is good!
+
+Me: I'm going to make an app that counts every time you eat soup.
+
+I made this doodle to show that I wasn't kidding.
+
+<img src="soup1.jpg" width="250">
+
+I didn't know how to make the number persist among state changes. Until now.
+
+The UI changed after the initial design.
+
+<img src="soup2.jpg" width="250">
+
+The app will hold its state when switching apps (paused state) and when closing the app (destroyed state)
+
+[soupvid.webm](https://github.com/sarahmarie23/Spring-2024-App-Project/assets/57870970/41c30c0a-ca5a-4901-8bae-88985db2cbda)
+
+
 ## HW2 - Basic Storage
 
 ### Approaches to Storage on Android
