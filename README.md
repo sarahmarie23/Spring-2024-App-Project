@@ -1,5 +1,19 @@
 # README
 
+## HW 3 - State Management
+
+### States in an Android App
+
+* **Active** - this is when the app is running and being used by the user, it is the app visible on the screen and includes partially active states (a navigation app running in the background or a music player)
+
+* **Paused** - in this state, the app is only partially visible to the user but the user isn't interacting with it, because they switched to another app, or something popped up on top of it
+
+* **Stopped** - the app is not visible to the user, either because they force stopped it in the phone's settings or the system stopped it
+
+* **Destroyed** - the app has stopped running in memory, its resources are freed because the user closed it by swiping up, the system destroyed the app's process, or the app crashed
+
+### States I must Consider
+
 ## HW2 - Basic Storage
 
 ### Approaches to Storage on Android
